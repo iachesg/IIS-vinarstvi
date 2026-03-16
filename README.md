@@ -1,66 +1,50 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Vinařství
+Autoři
+Nikol Vaněčková xvanecn00@stud.fit.vutbr.cz - stránky pro vinaře a pracovníka vinařství
+Matej Menich xmenicm00@stud.fit.vutbr.cz - stránky pro návštěvníka a zákazníka
+Jáchym Gregor xgregoj00@stud.fit.vutbr.cz - stránky pro administrátora a přihlášení
+URL aplikace
+https://iis-vinarstvi.infinityfree.me/
+Uživatelé systému pro testování
+Uveďte prosím existující zástupce všech rolí uživatelů.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Login	Heslo	Role
+admin@vinarstvi.cz	admin123	Administrátor
+pracovnik@vinarstvi.cz	pracovnik	Pracovník
+vinar@vinarstvi.cz	vinar1	Vinař
+zakaznik@vinarstvi.cz	heslo123	Zákazník
+(Diagram případů užití není nutné vkládat, pokud IS implementuje role a případy užití definované zadáním.)
 
-## About Laravel
+Video
+https://www.youtube.com/watch?v=apwAJ3VDd7Q
+Implementace
+Matej Menich
+Prohlížení vína (metoda index) je implementováno pomocí VinoController, který vypíše všechny vína v databázi podle ročníku.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Prohlížení (metoda index) a upravování nákupního košíku (metody add, update, clear, remove) je implementováno pomocí KosikController, který také v sekci košík vypíše historii objednávek zákazníka (metoda index).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+O vybavení objednávky se stará ObjednavkaController. Metoda create vytvoří objednávku, následne jí přidá do databáze a upraví sklad v databázi. Metoda potvrdena načte vytvořenou objednávku a zobrazí ji.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Jáchym Gregor
+Auth: signUp vytváří uživatele po validaci a se zahashovaným heslem; signIn ověřuje údaje a vytváří session/token; signOut ukončí session. Přístup k chráněným akcím zajišťuje middleware.
 
-## Learning Laravel
+Admin: administrace uživatelů (seznam, detail, změna rolí, smazání) a přehled objednávek; všechny akce jsou omezeny autorizací (role admin).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Nikol Vaněčková
+Vinař
+Implementováno v VinarController, metody index, rowCreate, storeRow, editRow, updateRow, deleteRow. Zobrazování a úprava probíhá přes Blade šablony vinar.blade.php, vinar_row_create.blade.php, vinar_row_edit.blade.php. Plánování a evidence ošetření a sklizní naprosto obdobně jen s rozdílem předpony osetreni a harvest. Správa vín a zařazení do prodeje: Činnosti v metodách createVino, storeVino, publishVino, unpublishVino. Odpovídající šablony jsou vinar-vino-create.blade.php, část Prodej ve vinar.blade.php. Veškeré ovládání dostupné pouze pro uživatele s rolí vinař nebo admin – kontrolováno v routách přes middleware role:3 nebo přímo ve VinarController.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Pracovník
+Prohlížení přidělených ošetření a sklizní: Realizují metody index, editOsetreni, updateOsetreni, editHarvest, updateHarvest v PracovnikController. Zobrazování i úprava přes šablony pracovnik.blade.php, pracovnik_harvest_edit.blade.php apod. Značení ošetření a sklizní jako provedené (zadání data a údajů): Úprava hodnot v metodách updateOsetreni a updateHarvest (PracovnikController), formuláře ve výše zmíněných Blade šablonách. Přístup pouze pro uživatele s rolí pracovník nebo admin – ošetřeno middlewarem role:2 a kontrolou práv.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Databáze
+obr 
+Instalace
+Ujistěte se, že máte PHP 8.1+, Composer, MySQL/MariaDB, a webserver (Apache/Nginx).
+V kořenové složce spusťte composer install (a případně npm install && npm run build pro frontend).
+Nakopírujte .env.example na .env a nastavte připojení k databázi a další parametry.
+Vygenerujte aplikační klíč příkazem php artisan key:generate.
+Vytvořte a inicializujte databázi pomocí php artisan:migrate (a případně php artisan db:migrate --seed).
+Pro lokální spuštění použijte php artisan serve nebo na hostingu přejděte v prohlížeči na adresu projektu.
+Známé problémy
+V tomto projektě není žádný známý problém.
