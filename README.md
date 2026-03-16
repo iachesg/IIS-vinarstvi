@@ -13,7 +13,7 @@ Jáchym Gregor [xgregoj00@stud.fit.vutbr.cz](mailto:xgregoj00@stud.fit.vutbr.cz)
 
 URL aplikace
 
-[https://iis-vinarstvi.infinityfree.me/](https://iis-vinarstvi.infinityfree.me/)
+[https://iis-vinarstvi.infinityfree.me/](https://iis-vinarstvi.infinityfree.me/) // momentálně nefunkční :(
 
 Uživatelé systému pro testování
 -------------------------------
