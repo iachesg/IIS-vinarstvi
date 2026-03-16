@@ -1,4 +1,4 @@
-  Document  Projekt IIS table { border-collapse: collapse; } td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; } dt { font-weight: bold; margin-top: 0.5em; }
+Projekt IIS 
 
 Vinařství
 =========
