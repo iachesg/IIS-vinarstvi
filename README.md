@@ -1,102 +1,62 @@
-Projekt IIS 
+# IIS
 
-Vinařství
-=========
+Laravel 10 application for winery management, built with Livewire and Vite.
 
-Autoři
+## Requirements
 
-Nikol Vaněčková [xvanecn00@stud.fit.vutbr.cz](mailto:xvanecn00@stud.fit.vutbr.cz) - stránky pro vinaře a pracovníka vinařství
+- PHP 8.1+
+- Composer
+- Node.js 18+ and npm
 
-Matej Menich [xmenicm00@stud.fit.vutbr.cz](mailto:xmenicm00@stud.fit.vutbr.cz) - stránky pro návštěvníka a zákazníka
+## Local Setup
 
-Jáchym Gregor [xgregoj00@stud.fit.vutbr.cz](mailto:xgregoj00@stud.fit.vutbr.cz) - stránky pro administrátora a přihlášení
+1. Install PHP dependencies:
 
-URL aplikace
+```bash
+composer install
+```
 
-[https://iis-vinarstvi.infinityfree.me/](https://iis-vinarstvi.infinityfree.me/) // momentálně nefunkční :(
+2. Install frontend dependencies:
 
-Uživatelé systému pro testování
--------------------------------
+```bash
+npm install
+```
 
-Uveďte prosím existující zástupce **všech rolí uživatelů**.
+3. Create your local environment file if it does not exist:
 
-Login
+```bash
+cp .env.example .env
+```
 
-Heslo
+4. Generate the application key:
 
-Role
+```bash
+php artisan key:generate
+```
 
-admin@vinarstvi.cz
+5. Make sure your database settings in `.env` point to a reachable MySQL server. The example file is already configured for the remote project database; if you want a fully local setup, update the `DB_*` values before running migrations.
 
-admin123
+6. Run migrations and seeders if needed:
 
-Administrátor
+```bash
+php artisan migrate --seed
+```
 
-pracovnik@vinarstvi.cz
+## Run The App
 
-pracovnik
+Open two terminals in the project root and run:
 
-Pracovník
+```bash
+php artisan serve
+```
 
-vinar@vinarstvi.cz
+```bash
+npm run dev
+```
 
-vinar1
+Then open the URL shown by Artisan, usually http://127.0.0.1:8000.
 
-Vinař
+## Notes
 
-zakaznik@vinarstvi.cz
-
-heslo123
-
-Zákazník
-
-(Diagram případů užití není nutné vkládat, pokud IS implementuje role a případy užití definované zadáním.)
-
-### Video
-
-[https://www.youtube.com/watch?v=apwAJ3VDd7Q](https://www.youtube.com/watch?v=apwAJ3VDd7Q)
-
-### Implementace
-
-#### Matej Menich
-
-Prohlížení vína (metoda index) je implementováno pomocí VinoController, který vypíše všechny vína v databázi podle ročníku.
-
-Prohlížení (metoda index) a upravování nákupního košíku (metody add, update, clear, remove) je implementováno pomocí KosikController, který také v sekci košík vypíše historii objednávek zákazníka (metoda index).
-
-O vybavení objednávky se stará ObjednavkaController. Metoda create vytvoří objednávku, následne jí přidá do databáze a upraví sklad v databázi. Metoda potvrdena načte vytvořenou objednávku a zobrazí ji.
-
-#### Jáchym Gregor
-
-Auth: signUp vytváří uživatele po validaci a se zahashovaným heslem; signIn ověřuje údaje a vytváří session/token; signOut ukončí session. Přístup k chráněným akcím zajišťuje middleware.
-
-Admin: administrace uživatelů (seznam, detail, změna rolí, smazání) a přehled objednávek; všechny akce jsou omezeny autorizací (role admin).
-
-#### Nikol Vaněčková
-
-##### Vinař
-
-Implementováno v VinarController, metody index, rowCreate, storeRow, editRow, updateRow, deleteRow. Zobrazování a úprava probíhá přes Blade šablony vinar.blade.php, vinar\_row\_create.blade.php, vinar\_row\_edit.blade.php. Plánování a evidence ošetření a sklizní naprosto obdobně jen s rozdílem předpony osetreni a harvest. Správa vín a zařazení do prodeje: Činnosti v metodách createVino, storeVino, publishVino, unpublishVino. Odpovídající šablony jsou vinar-vino-create.blade.php, část Prodej ve vinar.blade.php. Veškeré ovládání dostupné pouze pro uživatele s rolí vinař nebo admin – kontrolováno v routách přes middleware role:3 nebo přímo ve VinarController.
-
-##### Pracovník
-
-Prohlížení přidělených ošetření a sklizní: Realizují metody index, editOsetreni, updateOsetreni, editHarvest, updateHarvest v PracovnikController. Zobrazování i úprava přes šablony pracovnik.blade.php, pracovnik\_harvest\_edit.blade.php apod. Značení ošetření a sklizní jako provedené (zadání data a údajů): Úprava hodnot v metodách updateOsetreni a updateHarvest (PracovnikController), formuláře ve výše zmíněných Blade šablonách. Přístup pouze pro uživatele s rolí pracovník nebo admin – ošetřeno middlewarem role:2 a kontrolou práv.
-
-### Databáze
-
-![obr](iis_er.jpg) 
-
-Instalace
----------
-
-1.  Ujistěte se, že máte PHP 8.1+, Composer, MySQL/MariaDB, a webserver (Apache/Nginx).
-2.  V kořenové složce spusťte composer install (a případně npm install && npm run build pro frontend).
-3.  Nakopírujte .env.example na .env a nastavte připojení k databázi a další parametry.
-4.  Vygenerujte aplikační klíč příkazem php artisan key:generate.
-5.  Vytvořte a inicializujte databázi pomocí php artisan:migrate (a případně php artisan db:migrate --seed).
-6.  Pro lokální spuštění použijte php artisan serve nebo na hostingu přejděte v prohlížeči na adresu projektu.
-
-Známé problémy
---------------
-
-V tomto projektě není žádný známý problém.
+- Keep `.env` out of version control.
+- If the app cannot connect to the database, check the `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` values in `.env`.

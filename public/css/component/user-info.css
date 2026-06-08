@@ -1,0 +1,29 @@
+.user-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: inherit;
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.user-info .user-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.user-info .user-name {
+    font-weight: 600;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+
+.user-info .user-role {
+    font-size: 15px;
+    opacity: 0.7;
+    line-height: 1;
+}
